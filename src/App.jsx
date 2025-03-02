@@ -66,23 +66,42 @@ function App() {
   }
 
   return (
-    <div className={`max-w-md mx-auto my-8 p-6 rounded-lg shadow-xl relative ${themeClass('bg-dracula-background text-dracula-foreground', 'bg-white text-light-foreground')}`} role="application" aria-label="Todo application">
-      <ThemeToggle />
-      <h1 className={`text-2xl font-bold text-center mb-6 ${themeClass('text-dracula-pink', 'text-light-pink')}`}>Todo App</h1>
+    <>
+      {/* Skip to main content link - positioned at the top left of the page */}
+      <a
+        href="#main-content"
+        className={`sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:p-3 focus:z-50 focus:rounded-br-md ${
+          themeClass(
+            'focus:bg-dracula-purple focus:text-dracula-foreground focus:outline-none focus:ring-2 focus:ring-dracula-pink',
+            'focus:bg-light-purple focus:text-light-foreground focus:outline-none focus:ring-2 focus:ring-light-pink'
+          )
+        }`}
+      >
+        Skip to main content
+      </a>
 
-      <TodoForm onAddTodo={handleAddTodo} />
+      <div className={`max-w-md mx-auto my-8 p-6 rounded-lg shadow-xl relative ${themeClass('bg-dracula-background text-dracula-foreground', 'bg-white text-light-foreground')}`} role="application" aria-label="Todo application">
+        <header className="mb-6">
+          <ThemeToggle />
+          <h1 className={`text-2xl font-bold text-center ${themeClass('text-dracula-pink', 'text-light-pink')}`}>Todo App</h1>
+        </header>
 
-      <TodoList
-        todos={todos}
-        onToggle={handleToggleTodo}
-        onDelete={handleDeleteTodo}
-        onEdit={handleEditTodo}
-      />
+        <main id="main-content" tabIndex="-1" className="focus:outline-none">
+          <TodoForm onAddTodo={handleAddTodo} />
 
-      <TodoStats todos={todos} />
+          <TodoList
+            todos={todos}
+            onToggle={handleToggleTodo}
+            onDelete={handleDeleteTodo}
+            onEdit={handleEditTodo}
+          />
 
-      <StatusBar storageAvailable={storageAvailable} todoCount={todos.length} />
-    </div>
+          <TodoStats todos={todos} />
+        </main>
+
+        <StatusBar storageAvailable={storageAvailable} todoCount={todos.length} />
+      </div>
+    </>
   )
 }
 
