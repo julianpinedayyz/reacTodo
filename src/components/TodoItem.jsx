@@ -38,7 +38,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
   };
 
   return (
-    <li className={`flex items-center justify-between p-3 rounded-lg hover:bg-opacity-80 transition-colors duration-200 text-sm ${
+    <li className={`flex items-center justify-between p-2.5 rounded-lg hover:bg-opacity-80 transition-colors duration-200 text-sm ${
       themeClass('bg-dracula-selection', 'bg-light-selection')
     }`}>
       {isEditing ? (
