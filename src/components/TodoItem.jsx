@@ -38,7 +38,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
   };
 
   return (
-    <li className={`flex items-center justify-between p-3 rounded-lg hover:bg-opacity-80 transition-colors duration-200 ${
+    <li className={`flex items-center justify-between p-3 rounded-lg hover:bg-opacity-80 transition-colors duration-200 text-sm ${
       themeClass('bg-dracula-selection', 'bg-light-selection')
     }`}>
       {isEditing ? (
@@ -50,7 +50,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onKeyDown={handleEditKeyDown}
-            className={`flex-1 px-2 py-1 border rounded focus:outline-none focus:ring-2 ${
+            className={`flex-1 px-2 py-1 border rounded focus:outline-none focus:ring-2 text-sm ${
               themeClass(
                 'border-dracula-comment bg-dracula-currentLine text-dracula-foreground focus:ring-dracula-pink',
                 'border-light-comment bg-light-currentLine text-light-foreground focus:ring-light-pink'
@@ -107,7 +107,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
             />
             <label
               htmlFor={`todo-${todo.id}`}
-              className={`cursor-pointer ${todo.completed ?
+              className={`cursor-pointer text-sm ${todo.completed ?
                 themeClass('line-through text-dracula-comment', 'line-through text-light-comment') :
                 themeClass('text-dracula-foreground', 'text-light-foreground')
               }`}
