@@ -4,6 +4,7 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import TodoStats from './components/TodoStats'
 import StatusBar from './components/StatusBar'
+import TodoFilters from './components/TodoFilters'
 import IconToggle from './components/IconToggle'
 import { useTheme } from './contexts/ThemeContext'
 
@@ -15,6 +16,8 @@ function App() {
     return savedTodos ? JSON.parse(savedTodos) : []
   })
   const [storageAvailable, setStorageAvailable] = useState(false)
+  const [filter, setFilter] = useState('all') // 'all', 'completed', 'archived'
+  const [sortOrder, setSortOrder] = useState('desc') // 'desc' (newest first) or 'asc' (oldest first)
 
   // Create a dynamic theme class based on current theme
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
@@ -66,16 +69,37 @@ function App() {
     ))
   }
 
-  // Sort todos: most recent uncompleted at top, completed at bottom
-  const sortedTodos = () => {
-    return [...todos].sort((a, b) => {
-      // If one is completed and the other isn't, the completed one goes later
-      if (a.completed && !b.completed) return 1;
-      if (!a.completed && b.completed) return -1;
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+  }
 
-      // Within the same completion status, sort by ID (timestamp) descending
-      // This puts the most recent items (higher IDs) first
-      return b.id - a.id;
+  // Get filtered and sorted todos
+  const getFilteredAndSortedTodos = () => {
+    // First, filter the todos
+    let filteredTodos = [...todos];
+
+    if (filter === 'completed') {
+      filteredTodos = filteredTodos.filter(todo => todo.completed);
+    } else if (filter === 'archived') {
+      // For now, no todos are archived, so return empty array
+      // Will implement archive functionality later
+      return [];
+    }
+
+    // Then sort them
+    return filteredTodos.sort((a, b) => {
+      // Always put completed at the bottom if not in completed filter
+      if (filter !== 'completed') {
+        if (a.completed && !b.completed) return 1;
+        if (!a.completed && b.completed) return -1;
+      }
+
+      // Sort by timestamp according to sortOrder
+      if (sortOrder === 'desc') {
+        return b.id - a.id; // Newest first
+      } else {
+        return a.id - b.id; // Oldest first
+      }
     });
   }
 
@@ -103,8 +127,15 @@ function App() {
         <main id="main-content" tabIndex="-1" className="focus:outline-none">
           <TodoForm onAddTodo={handleAddTodo} />
 
+          <TodoFilters
+            filter={filter}
+            setFilter={setFilter}
+            sortOrder={sortOrder}
+            toggleSortOrder={toggleSortOrder}
+          />
+
           <TodoList
-            todos={sortedTodos()}
+            todos={getFilteredAndSortedTodos()}
             onToggle={handleToggleTodo}
             onDelete={handleDeleteTodo}
             onEdit={handleEditTodo}
