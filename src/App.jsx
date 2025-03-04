@@ -4,6 +4,7 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import TodoStats from './components/TodoStats'
 import StatusBar from './components/StatusBar'
+import IconToggle from './components/IconToggle'
 import { useTheme } from './contexts/ThemeContext'
 
 function App() {
@@ -93,7 +94,7 @@ function App() {
         Skip to main content
       </a>
 
-      <div className={`max-w-md mx-auto my-8 p-6 rounded-lg shadow-xl relative ${themeClass('bg-dracula-background text-dracula-foreground', 'bg-white text-light-foreground')}`} role="application" aria-label="Todo application">
+      <div className={`max-w-xl mx-auto my-8 p-6 rounded-lg shadow-xl relative ${themeClass('bg-dracula-background text-dracula-foreground', 'bg-white text-light-foreground')}`} role="application" aria-label="Todo application">
         <header className="mb-6">
           <ThemeToggle />
           <h1 className={`text-2xl font-bold text-center ${themeClass('text-dracula-cyan', 'text-light-pink')}`}>Todo App</h1>
@@ -114,6 +115,9 @@ function App() {
 
         <StatusBar storageAvailable={storageAvailable} todoCount={todos.length} />
       </div>
+
+      {/* Icon library toggle */}
+      <IconToggle />
     </>
   )
 }
