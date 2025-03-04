@@ -29,6 +29,17 @@ reacTodo is a feature-rich, accessible React todo application with support for:
 - **Accessibility**: Full keyboard navigation, ARIA attributes, screen reader support
 - **Responsive Design**: Works on devices of all sizes
 
+## 💾 Advanced Storage Implementation
+
+The app features a sophisticated localStorage implementation:
+
+- **Robust Storage Detection**: Automatically detects if localStorage is available in the user's browser
+- **Graceful Fallbacks**: Functions normally even when localStorage is unavailable
+- **User Feedback**: Transparently communicates storage availability status to users
+- **Data Persistence**: Maintains todos, theme preferences, and icon library selections across sessions
+- **Storage Security**: Safely handles potential storage errors and quota limitations
+- **Optimized Saving**: Only writes to storage when data actually changes
+
 ## 🛠️ Technologies Used
 
 - **React**: UI framework
