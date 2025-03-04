@@ -55,7 +55,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
   const TimeIcon = useOcticons ? ClockIcon : FaClock;
 
   return (
-    <li className={`relative flex flex-col p-2.5 rounded-lg hover:bg-opacity-80 transition-colors duration-200 text-sm mb-3 ${
+    <li className={`relative flex flex-col px-2.5 py-2 rounded-lg hover:bg-opacity-80 transition-colors duration-200 text-sm mb-3 ${
       themeClass('bg-dracula-selection', 'bg-light-selection')
     }`}>
       {/* Actions row with timestamp on left, buttons on right */}
@@ -70,12 +70,12 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
           <span>{formatTimestamp(todo.id)}</span>
         </div>
 
-        {/* Action buttons - 20% smaller */}
+        {/* Action buttons - with fixed size and padding */}
         {!isEditing && (
-          <div className="flex shrink-0"> {/* Make sure these buttons don't wrap */}
+          <div className="flex shrink-0 gap-1">
             <button
               onClick={startEditing}
-              className={`ml-1 w-6.5 h-6.5 flex items-center justify-center rounded-md transition-all duration-200 ${
+              className={`p-1.5 rounded-md transition-all duration-200 ${
                 themeClass(
                   'text-dracula-cyan hover:bg-dracula-cyan hover:text-dracula-background focus-visible:outline-dracula-cyan',
                   'text-light-cyan hover:bg-light-cyan hover:text-light-background focus-visible:outline-light-cyan'
@@ -83,12 +83,12 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
               } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
               aria-label={`Edit todo: ${todo.text}`}
             >
-              <EditIcon size={13} />
+              <EditIcon size={14} />
               <span className="sr-only">Edit</span>
             </button>
             <button
               onClick={() => onDelete(todo.id)}
-              className={`ml-1 w-6.5 h-6.5 flex items-center justify-center rounded-md transition-all duration-200 ${
+              className={`p-1.5 rounded-md transition-all duration-200 ${
                 themeClass(
                   'text-dracula-red hover:bg-dracula-red hover:text-dracula-background focus-visible:outline-dracula-red',
                   'text-light-red hover:bg-light-red hover:text-light-background focus-visible:outline-light-red'
@@ -96,7 +96,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
               } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
               aria-label={`Delete todo: ${todo.text}`}
             >
-              <DeleteIcon size={13} />
+              <DeleteIcon size={14} />
               <span className="sr-only">Delete</span>
             </button>
           </div>
@@ -123,10 +123,10 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
               autoFocus
               aria-required="true"
             />
-            <div className="flex ml-2">
+            <div className="flex ml-2 gap-1">
               <button
                 onClick={saveEdit}
-                className={`w-8 h-8 flex items-center justify-center rounded-md transition-all duration-200 mr-1 ${
+                className={`p-1.5 flex items-center justify-center rounded-md transition-all duration-200 ${
                   themeClass(
                     'text-dracula-green hover:bg-dracula-green hover:text-dracula-background focus-visible:outline-dracula-green',
                     'text-light-green hover:bg-light-green hover:text-light-background focus-visible:outline-light-green'
@@ -135,12 +135,12 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
                 aria-label="Save changes"
                 disabled={editValue.trim() === ''}
               >
-                <SaveIcon />
+                <SaveIcon size={14} />
                 <span className="sr-only">Save changes</span>
               </button>
               <button
                 onClick={cancelEdit}
-                className={`w-8 h-8 flex items-center justify-center rounded-md transition-all duration-200 ${
+                className={`p-1.5 flex items-center justify-center rounded-md transition-all duration-200 ${
                   themeClass(
                     'text-dracula-orange hover:bg-dracula-orange hover:text-dracula-background focus-visible:outline-dracula-orange',
                     'text-light-orange hover:bg-light-orange hover:text-light-background focus-visible:outline-light-orange'
@@ -148,7 +148,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit, useOcticons = true }) {
                 } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
                 aria-label="Cancel editing"
               >
-                <CancelIcon />
+                <CancelIcon size={14} />
                 <span className="sr-only">Cancel editing</span>
               </button>
             </div>
