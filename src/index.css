@@ -2,17 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles and theme transitions */
+:root {
+  --transition-speed: 0.2s;
+}
+
+html, body {
+  /* Smooth theme transitions */
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+  min-height: 100vh;
+}
+
+/* Remove any hardcoded backgrounds that could override theme */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* Dark theme background (10% lighter than widget) */
-.dark body {
-  background-color: #353747; /* Lighter than dracula-background (#282a36) */
+/* Make sure transitions don't apply during page load */
+.no-transition * {
+  transition: none !important;
 }
 
-/* Light theme background (off-white to allow shadow visibility) */
-body {
-  background-color: #f3f4f6; /* Light gray background */
+/* Apply theme-dependent styles based on class */
+html.dark-theme {
+  color-scheme: dark;
 }
