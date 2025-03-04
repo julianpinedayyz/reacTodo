@@ -65,6 +65,19 @@ function App() {
     ))
   }
 
+  // Sort todos: most recent uncompleted at top, completed at bottom
+  const sortedTodos = () => {
+    return [...todos].sort((a, b) => {
+      // If one is completed and the other isn't, the completed one goes later
+      if (a.completed && !b.completed) return 1;
+      if (!a.completed && b.completed) return -1;
+
+      // Within the same completion status, sort by ID (timestamp) descending
+      // This puts the most recent items (higher IDs) first
+      return b.id - a.id;
+    });
+  }
+
   return (
     <>
       {/* Skip to main content link - positioned at the top left of the page */}
@@ -90,7 +103,7 @@ function App() {
           <TodoForm onAddTodo={handleAddTodo} />
 
           <TodoList
-            todos={todos}
+            todos={sortedTodos()}
             onToggle={handleToggleTodo}
             onDelete={handleDeleteTodo}
             onEdit={handleEditTodo}
