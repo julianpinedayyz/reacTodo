@@ -1,31 +1,31 @@
 import TodoItem from './TodoItem';
 import { useTheme } from '../contexts/ThemeContext';
+import { useIconLibrary } from '../contexts/IconContext';
 
-function TodoList({ todos, onToggle, onDelete, onEdit }) {
+const TodoList = ({ todos, onToggle, onDelete, onEdit }) => {
   const { isDark } = useTheme();
+  const { useOcticons } = useIconLibrary();
 
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
 
+  if (todos.length === 0) {
+    return <p className="text-center py-4">No todos yet. Add one above!</p>;
+  }
+
   return (
-    <div role="region" aria-label="Todo list" tabIndex="0">
-      <ul className="space-y-2" aria-label="Todo items list">
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={onToggle}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
-        ))}
-        {todos.length === 0 && (
-          <li className={`p-3 rounded-lg text-center ${themeClass('bg-dracula-currentLine text-dracula-comment', 'bg-light-currentLine text-light-comment')}`}>
-            No todos yet. Add one above!
-          </li>
-        )}
-      </ul>
-    </div>
+    <ul className="mb-6 space-y-3" aria-label="Todo items list">
+      {todos.map(todo => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={onToggle}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          useOcticons={useOcticons}
+        />
+      ))}
+    </ul>
   );
-}
+};
 
 export default TodoList;
