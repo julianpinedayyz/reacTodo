@@ -16,12 +16,15 @@ const TodoFilters = ({
 
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
 
-  // Button base classes - removing overflow issues
+  // Button base classes with improved contrast
   const buttonClass = (isActive) => `
     flex items-center justify-center px-3 py-1.5 rounded-md text-xs sm:text-sm transition-colors
     ${isActive
       ? themeClass('bg-dracula-purple text-dracula-foreground', 'bg-light-purple text-white')
-      : themeClass('bg-dracula-currentLine text-dracula-comment hover:text-dracula-foreground', 'bg-light-currentLine text-light-comment hover:text-light-foreground')
+      : themeClass(
+          'bg-dracula-currentLine text-dracula-foreground hover:bg-dracula-purple/20',
+          'bg-light-currentLine text-light-foreground hover:bg-light-purple/20'
+        )
     }
   `;
 
@@ -54,7 +57,7 @@ const TodoFilters = ({
           <span>Completed</span>
         </button>
 
-        {/* Fix the archive button by removing the border-r-4 and using a different indicator */}
+        {/* Fix archive button styling */}
         <button
           className={`${buttonClass(filter === 'archived')} relative`}
           onClick={() => setFilter('archived')}
@@ -69,16 +72,15 @@ const TodoFilters = ({
           )}
           <span>Archived</span>
           {archivedCount > 0 && (
-            <span className={`ml-1 px-2 py-0.5 rounded-full text-xs ${
+            <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${
               themeClass(
-                'bg-dracula-red bg-opacity-30 text-dracula-foreground',
-                'bg-light-red bg-opacity-30 text-white'
+                'bg-dracula-red text-white', // Better contrast for dark mode
+                'bg-light-red text-white'    // Keep white text on red for light mode
               )
             }`}>
               {archivedCount}
             </span>
           )}
-          {/* Replace the red border with a dot indicator */}
           {archivedCount > 0 && filter !== 'archived' && expiringCount > 0 && (
             <span className={`absolute top-0 right-0 -mt-1 -mr-1 w-2 h-2 rounded-full ${
               themeClass('bg-dracula-red', 'bg-light-red')
