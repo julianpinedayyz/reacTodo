@@ -16,23 +16,52 @@ const TodoFilters = ({
 
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
 
-  // Button base classes with improved contrast
-  const buttonClass = (isActive) => `
-    flex items-center justify-center px-3 py-1.5 rounded-md text-xs sm:text-sm transition-colors
-    ${isActive
-      ? themeClass('bg-dracula-purple text-dracula-foreground', 'bg-light-purple text-white')
-      : themeClass(
-          'bg-dracula-currentLine text-dracula-foreground hover:bg-dracula-purple/20',
-          'bg-light-currentLine text-light-foreground hover:bg-light-purple/20'
-        )
+  // Custom button styles using Dracula theme colors
+  const getButtonClass = (buttonType, isActive) => {
+    // Base styles for all buttons
+    const baseStyles = `
+      flex items-center justify-center px-3 py-1.5 rounded-md text-xs sm:text-sm transition-colors
+    `;
+
+    // Button type specific styles - using Dracula theme colors
+    if (buttonType === 'all') {
+      return `${baseStyles} ${
+        isActive
+          ? themeClass('bg-dracula-purple text-dracula-background', 'bg-light-purple text-white')
+          : themeClass('bg-dracula-currentLine text-dracula-purple hover:bg-dracula-purple/20', 'bg-light-currentLine text-light-purple hover:bg-light-purple/20')
+      }`;
     }
-  `;
+
+    if (buttonType === 'completed') {
+      return `${baseStyles} ${
+        isActive
+          ? themeClass('bg-dracula-green text-dracula-background', 'bg-light-green text-white')
+          : themeClass('bg-dracula-currentLine text-dracula-green hover:bg-dracula-green/20', 'bg-light-currentLine text-light-green hover:bg-light-green/20')
+      }`;
+    }
+
+    if (buttonType === 'archived') {
+      return `${baseStyles} ${
+        isActive
+          ? themeClass('bg-dracula-orange text-dracula-background', 'bg-light-orange text-white')
+          : themeClass('bg-dracula-currentLine text-dracula-orange hover:bg-dracula-orange/20', 'bg-light-currentLine text-light-orange hover:bg-light-orange/20')
+      }`;
+    }
+
+    if (buttonType === 'sort') {
+      return `${baseStyles} ${
+        themeClass('bg-dracula-currentLine text-dracula-cyan hover:bg-dracula-cyan/20', 'bg-light-currentLine text-light-cyan hover:bg-light-cyan/20')
+      }`;
+    }
+
+    return baseStyles;
+  };
 
   return (
     <div className="mb-4 flex flex-wrap gap-2 justify-between" role="toolbar" aria-label="Todo filtering options">
       <div className="flex gap-2">
         <button
-          className={buttonClass(filter === 'all')}
+          className={getButtonClass('all', filter === 'all')}
           onClick={() => setFilter('all')}
           aria-pressed={filter === 'all'}
         >
@@ -45,7 +74,7 @@ const TodoFilters = ({
         </button>
 
         <button
-          className={buttonClass(filter === 'completed')}
+          className={getButtonClass('completed', filter === 'completed')}
           onClick={() => setFilter('completed')}
           aria-pressed={filter === 'completed'}
         >
@@ -57,9 +86,8 @@ const TodoFilters = ({
           <span>Completed</span>
         </button>
 
-        {/* Fix archive button styling */}
         <button
-          className={`${buttonClass(filter === 'archived')} relative`}
+          className={`${getButtonClass('archived', filter === 'archived')} relative`}
           onClick={() => setFilter('archived')}
           aria-pressed={filter === 'archived'}
           disabled={archivedCount === 0}
@@ -74,8 +102,8 @@ const TodoFilters = ({
           {archivedCount > 0 && (
             <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${
               themeClass(
-                'bg-dracula-red text-white', // Better contrast for dark mode
-                'bg-light-red text-white'    // Keep white text on red for light mode
+                'bg-dracula-red text-dracula-background',
+                'bg-light-red text-white'
               )
             }`}>
               {archivedCount}
@@ -90,7 +118,7 @@ const TodoFilters = ({
       </div>
 
       <button
-        className={buttonClass(true)}
+        className={getButtonClass('sort', true)}
         onClick={toggleSortOrder}
         aria-pressed={true}
         title={sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
