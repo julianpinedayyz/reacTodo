@@ -1,50 +1,78 @@
 import { useTheme } from '../contexts/ThemeContext';
+import { useIconLibrary } from '../contexts/IconContext';
+import { CheckCircleIcon, XCircleIcon, ListOrderedIcon, ArchiveIcon, AlertIcon } from '@primer/octicons-react';
+import { FaCheckCircle, FaTimesCircle, FaListOl, FaArchive, FaExclamationTriangle } from 'react-icons/fa';
 
-function StatusBar({ storageAvailable, todoCount }) {
+const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCount = 0 }) => {
   const { isDark } = useTheme();
+  const { useOcticons } = useIconLibrary();
 
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
 
   return (
-    <footer className={`mt-8 pt-4 border-t text-xs ${themeClass('border-dracula-comment text-dracula-comment', 'border-light-comment text-light-comment')}`} role="contentinfo">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2" aria-live="polite">
-          <span id="storage-status-label">Storage:</span>
+    <footer className={`mt-6 pt-3 text-xs ${themeClass('border-t border-dracula-comment', 'border-t border-light-comment')}`}>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
           {storageAvailable ? (
-            <span
-              className={`px-2 py-1 rounded-md flex items-center ${themeClass('bg-dracula-currentLine text-dracula-green', 'bg-light-currentLine text-light-green')}`}
-              role="status"
-              aria-labelledby="storage-status-label"
-            >
-              <span className={`w-2 h-2 rounded-full mr-1 ${themeClass('bg-dracula-green', 'bg-light-green')}`} aria-hidden="true"></span>
-              Available
-            </span>
+            <>
+              {useOcticons ? (
+                <CheckCircleIcon size={14} className={themeClass('text-dracula-green', 'text-light-green')} />
+              ) : (
+                <FaCheckCircle size={14} className={themeClass('text-dracula-green', 'text-light-green')} />
+              )}
+              <span className="ml-1">Storage available</span>
+            </>
           ) : (
-            <span
-              className={`px-2 py-1 rounded-md flex items-center ${themeClass('bg-dracula-currentLine text-dracula-red', 'bg-light-currentLine text-light-red')}`}
-              role="alert"
-              aria-labelledby="storage-status-label"
-            >
-              <span className={`w-2 h-2 rounded-full mr-1 ${themeClass('bg-dracula-red', 'bg-light-red')}`} aria-hidden="true"></span>
-              Unavailable
-            </span>
+            <>
+              {useOcticons ? (
+                <XCircleIcon size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+              ) : (
+                <FaTimesCircle size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+              )}
+              <span className="ml-1">Storage unavailable</span>
+            </>
           )}
         </div>
 
-        {storageAvailable && (
-          <div className="flex items-center gap-2" aria-live="polite">
-            <span id="stored-todos-label">Stored todos:</span>
-            <span
-              className={`px-2 py-1 rounded-md ${themeClass('bg-dracula-currentLine text-dracula-cyan', 'bg-light-currentLine text-light-cyan')}`}
-              aria-labelledby="stored-todos-label"
-            >
-              {todoCount}
-            </span>
-          </div>
-        )}
+        <div className="flex gap-3">
+          {archivedCount > 0 && (
+            <div className="flex items-center">
+              {expiringCount > 0 ? (
+                <>
+                  {useOcticons ? (
+                    <AlertIcon size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+                  ) : (
+                    <FaExclamationTriangle size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+                  )}
+                  <span className="ml-1">{expiringCount} expiring soon</span>
+                </>
+              ) : (
+                <>
+                  {useOcticons ? (
+                    <ArchiveIcon size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+                  ) : (
+                    <FaArchive size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
+                  )}
+                  <span className="ml-1">{archivedCount} archived</span>
+                </>
+              )}
+            </div>
+          )}
+
+          {storageAvailable && (
+            <div className="flex items-center">
+              {useOcticons ? (
+                <ListOrderedIcon size={14} className={themeClass('text-dracula-purple', 'text-light-purple')} />
+              ) : (
+                <FaListOl size={14} className={themeClass('text-dracula-purple', 'text-light-purple')} />
+              )}
+              <span className="ml-1">{todoCount} {todoCount === 1 ? 'item' : 'items'}</span>
+            </div>
+          )}
+        </div>
       </div>
     </footer>
   );
-}
+};
 
 export default StatusBar;
