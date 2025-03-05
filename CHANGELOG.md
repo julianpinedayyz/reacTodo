@@ -15,6 +15,8 @@
 - Create RestoreIcon component for archived items
 - Add filtering and sorting functionality to App
 - Create TodoFilters component for filtering and sorting
+- Enhanced PostCSS configuration with postcss-nested and postcss-preset-env plugins
+- Added example CSS file demonstrating PostCSS features
 
 ### Fixed
 - Improve contrast on Archive View back button
