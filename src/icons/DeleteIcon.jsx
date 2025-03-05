@@ -1,14 +1,14 @@
 import { useIconLibrary } from '../contexts/IconContext';
-import { TrashIcon } from '@primer/octicons-react';
-import { FaTrash } from 'react-icons/fa';
+import { ArchiveIcon } from '@primer/octicons-react';
+import { FaArchive } from 'react-icons/fa';
 
 function DeleteIcon({ size = 16 }) {
   const { useOcticons } = useIconLibrary();
 
   return useOcticons ? (
-    <TrashIcon size={size} />
+    <ArchiveIcon size={size} />
   ) : (
-    <FaTrash size={size} />
+    <FaArchive size={size} />
   );
 }
 
