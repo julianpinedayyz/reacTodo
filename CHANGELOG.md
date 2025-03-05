@@ -29,3 +29,9 @@
 
 ### Style
 - Clean up CSS to prevent background color conflicts
+
+### Testing
+- Implement test for rendering Todo App header
+- Add test coverage for creating new todos
+- Add test coverage for toggling todo completion status
+- Implement test for archiving todos
