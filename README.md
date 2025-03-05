@@ -28,6 +28,20 @@ reacTodo is a feature-rich, accessible React todo application with support for:
 - **Local Storage**: Todos persist across browser sessions
 - **Accessibility**: Full keyboard navigation, ARIA attributes, screen reader support
 - **Responsive Design**: Works on devices of all sizes
+- **Archive System**: Items are archived instead of permanently deleted, with recovery options
+- **Auto-Deletion**: Archived items are automatically deleted after 30 days
+- **Expiration Notices**: Clear indicators of when archived items will be permanently removed
+
+## 🗑️ Archive System
+
+The app implements a sophisticated archive system:
+
+- **Soft Delete**: Items are moved to an archive rather than being permanently deleted
+- **Recovery**: Archived items can be restored to active status at any time
+- **Auto-Expiration**: Archived items are permanently deleted after 30 days
+- **Visual Indicators**: Archived items show expiration dates with warnings as deletion approaches
+- **Filter Views**: Dedicated archive view to manage archived items
+- **Notifications**: Counter shows number of archived items and warns of soon-to-expire items
 
 ## 💾 Advanced Storage Implementation
 
