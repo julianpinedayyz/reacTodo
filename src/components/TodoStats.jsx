@@ -20,8 +20,9 @@ function TodoStats({ todos, archivedCount = 0, expiringCount = 0 }) {
     >
       <h2 className="sr-only">Todo Statistics</h2>
       <div className="flex justify-between">
+        {/* Improve contrast for "Active tasks" text */}
         <div>
-          <span className={themeClass('text-dracula-comment', 'text-light-comment')}>
+          <span className={themeClass('text-dracula-foreground', 'text-light-foreground')}>
             Active tasks: {totalActive}
           </span>
         </div>
