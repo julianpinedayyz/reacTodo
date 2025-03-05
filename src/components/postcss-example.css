@@ -4,22 +4,22 @@
 .todo-card {
   border-radius: 8px;
   padding: 16px;
-  
+
   /* Nested selectors */
   .todo-title {
     font-weight: bold;
     margin-bottom: 8px;
-    
+
     /* Nested pseudo-classes */
     &:hover {
       color: #646cff;
     }
   }
-  
+
   /* Nested with parent reference */
   &.completed {
     opacity: 0.7;
-    
+
     .todo-title {
       text-decoration: line-through;
     }
@@ -31,7 +31,7 @@
   --primary-color: #646cff;
   --text-color: #213547;
   --background: #ffffff;
-  
+
   color: var(--text-color, #000);
   background: var(--background, #fff);
 }
