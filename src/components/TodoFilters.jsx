@@ -7,14 +7,16 @@ const TodoFilters = ({
   filter,
   setFilter,
   sortOrder,
-  toggleSortOrder
+  toggleSortOrder,
+  archivedCount = 0,
+  expiringCount = 0
 }) => {
   const { isDark } = useTheme();
   const { useOcticons } = useIconLibrary();
 
   const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
 
-  // Button base classes
+  // Button base classes - removing overflow issues
   const buttonClass = (isActive) => `
     flex items-center justify-center px-3 py-1.5 rounded-md text-xs sm:text-sm transition-colors
     ${isActive
@@ -52,12 +54,13 @@ const TodoFilters = ({
           <span>Completed</span>
         </button>
 
+        {/* Fix the archive button by removing the border-r-4 and using a different indicator */}
         <button
-          className={buttonClass(filter === 'archived')}
+          className={`${buttonClass(filter === 'archived')} relative`}
           onClick={() => setFilter('archived')}
           aria-pressed={filter === 'archived'}
-          disabled={true} // Will implement later
-          title="Coming soon"
+          disabled={archivedCount === 0}
+          title={archivedCount === 0 ? "No archived items" : `${archivedCount} archived items${expiringCount > 0 ? `, ${expiringCount} expiring soon` : ''}`}
         >
           {useOcticons ? (
             <ArchiveIcon size={14} className="mr-1" aria-hidden="true" />
@@ -65,6 +68,22 @@ const TodoFilters = ({
             <FaArchive size={14} className="mr-1" aria-hidden="true" />
           )}
           <span>Archived</span>
+          {archivedCount > 0 && (
+            <span className={`ml-1 px-2 py-0.5 rounded-full text-xs ${
+              themeClass(
+                'bg-dracula-red bg-opacity-30 text-dracula-foreground',
+                'bg-light-red bg-opacity-30 text-white'
+              )
+            }`}>
+              {archivedCount}
+            </span>
+          )}
+          {/* Replace the red border with a dot indicator */}
+          {archivedCount > 0 && filter !== 'archived' && expiringCount > 0 && (
+            <span className={`absolute top-0 right-0 -mt-1 -mr-1 w-2 h-2 rounded-full ${
+              themeClass('bg-dracula-red', 'bg-light-red')
+            }`}></span>
+          )}
         </button>
       </div>
 
