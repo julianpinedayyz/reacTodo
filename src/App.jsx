@@ -249,8 +249,8 @@ function App() {
                 onClick={() => setFilter('all')}
                 className={`px-3 py-1.5 text-xs rounded-md ${
                   themeClass(
-                    'bg-dracula-comment hover:bg-dracula-currentLine text-dracula-foreground',
-                    'bg-light-comment hover:bg-light-currentLine text-light-foreground'
+                    'bg-dracula-currentLine text-dracula-foreground hover:bg-dracula-purple/20',
+                    'bg-light-comment text-white hover:bg-light-comment/80'
                   )
                 }`}
               >
