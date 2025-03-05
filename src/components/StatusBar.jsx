@@ -12,6 +12,7 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
   return (
     <footer className={`mt-6 pt-3 text-xs ${themeClass('border-t border-dracula-comment', 'border-t border-light-comment')}`}>
       <div className="flex justify-between items-center">
+        {/* Improve contrast for status text */}
         <div className="flex items-center">
           {storageAvailable ? (
             <>
@@ -20,7 +21,9 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
               ) : (
                 <FaCheckCircle size={14} className={themeClass('text-dracula-green', 'text-light-green')} />
               )}
-              <span className="ml-1">Storage available</span>
+              <span className={`ml-1 ${themeClass('text-dracula-foreground', 'text-light-foreground')}`}>
+                Storage available
+              </span>
             </>
           ) : (
             <>
@@ -29,7 +32,9 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
               ) : (
                 <FaTimesCircle size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
               )}
-              <span className="ml-1">Storage unavailable</span>
+              <span className={`ml-1 ${themeClass('text-dracula-foreground', 'text-light-foreground')}`}>
+                Storage unavailable
+              </span>
             </>
           )}
         </div>
@@ -44,7 +49,9 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
                   ) : (
                     <FaExclamationTriangle size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
                   )}
-                  <span className="ml-1">{expiringCount} expiring soon</span>
+                  <span className={`ml-1 ${themeClass('text-dracula-foreground', 'text-light-foreground')}`}>
+                    {expiringCount} expiring soon
+                  </span>
                 </>
               ) : (
                 <>
@@ -53,7 +60,9 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
                   ) : (
                     <FaArchive size={14} className={themeClass('text-dracula-red', 'text-light-red')} />
                   )}
-                  <span className="ml-1">{archivedCount} archived</span>
+                  <span className={`ml-1 ${themeClass('text-dracula-foreground', 'text-light-foreground')}`}>
+                    {archivedCount} archived
+                  </span>
                 </>
               )}
             </div>
@@ -66,7 +75,9 @@ const StatusBar = ({ storageAvailable, todoCount, archivedCount = 0, expiringCou
               ) : (
                 <FaListOl size={14} className={themeClass('text-dracula-purple', 'text-light-purple')} />
               )}
-              <span className="ml-1">{todoCount} {todoCount === 1 ? 'item' : 'items'}</span>
+              <span className={`ml-1 ${themeClass('text-dracula-foreground', 'text-light-foreground')}`}>
+                {todoCount} {todoCount === 1 ? 'item' : 'items'}
+              </span>
             </div>
           )}
         </div>
