@@ -1,3 +1,2 @@
-// Export all utilities from a single file
-export * from './todoUtils';
+// Export storage utilities from a single file
 export * from './storageUtils';

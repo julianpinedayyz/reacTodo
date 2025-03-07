@@ -1,4 +1,4 @@
-import { useIconLibrary } from '../contexts/IconContext';
+import { useIconLibrary } from '../features/ui';
 import { XIcon } from '@primer/octicons-react';
 import { FaTimes } from 'react-icons/fa';
 

@@ -1,27 +1,24 @@
-import { ARCHIVE_DURATION_DAYS } from './utils/todoUtils';
-
-// Import components
-import ThemeToggle from './components/ThemeToggle';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
-import TodoStats from './components/TodoStats';
-import StatusBar from './components/StatusBar';
-import TodoFilters from './components/TodoFilters';
-import IconToggle from './components/IconToggle';
-import ExpirationNotice from './components/ExpirationNotice';
-
-// Import contexts and hooks
-import { useIconLibrary } from './contexts/IconContext';
-import { useTodos } from './hooks/useTodos';
-import { useThemeUtils } from './hooks/useThemeUtils';
-
-// Import icons
-import { ArchiveIcon } from '@primer/octicons-react';
-import { FaArchive } from 'react-icons/fa';
+// Import from features module
+import {
+  // Todo-related imports
+  TodoForm,
+  TodoList,
+  TodoStats,
+  ExpirationNotice,
+  TodoFilters,
+  useTodos,
+  ARCHIVE_DURATION_DAYS,
+  // UI-related imports
+  ThemeToggle,
+  StatusBar,
+  IconToggle,
+  useIconLibrary,
+  useThemeUtils
+} from './features';
 
 function App() {
   // Custom hooks provide all the state and functions we need
-  const { 
+  const {
     filteredAndSortedTodos,
     storageAvailable,
     filter,
@@ -42,9 +39,12 @@ function App() {
     handleViewArchive,
     getDaysUntilDeletion
   } = useTodos();
-  
+
   const { themeClass } = useThemeUtils();
-  const { useOcticons } = useIconLibrary();
+  const { useOcticons, icons } = useIconLibrary();
+
+  // Get the archive icon from the icon library
+  const ArchiveViewIcon = icons.archive || icons.box;
 
   return (
     <>
@@ -81,11 +81,7 @@ function App() {
             <div className="mb-4 p-3 rounded-md border border-opacity-50 flex items-center justify-between">
               <div className={`font-medium ${themeClass('text-dracula-red', 'text-light-red')}`}>
                 <h2 className="flex items-center">
-                  {useOcticons ? (
-                    <ArchiveIcon className="mr-2" size={16} />
-                  ) : (
-                    <FaArchive className="mr-2" size={16} />
-                  )}
+                  <ArchiveViewIcon className="mr-2" size={16} />
                   Archive View - Items will be deleted after {ARCHIVE_DURATION_DAYS} days
                 </h2>
                 {expiringTodos.length > 0 && (

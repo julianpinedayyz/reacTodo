@@ -1,4 +1,4 @@
-import { useIconLibrary } from '../contexts/IconContext';
+import { useIconLibrary } from '../features/ui';
 import { PencilIcon } from '@primer/octicons-react';
 import { FaPencilAlt } from 'react-icons/fa';
 

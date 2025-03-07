@@ -1,10 +1,2 @@
-// Export all components from a single file
-export { default as ExpirationNotice } from './ExpirationNotice';
-export { default as IconToggle } from './IconToggle';
-export { default as StatusBar } from './StatusBar';
-export { default as ThemeToggle } from './ThemeToggle';
-export { default as TodoFilters } from './TodoFilters';
-export { default as TodoForm } from './TodoForm';
-export { default as TodoItem } from './TodoItem';
-export { default as TodoList } from './TodoList';
-export { default as TodoStats } from './TodoStats';
+// This directory is reserved for shared components that don't belong to a specific feature
+// Most components should live in their respective feature directories under src/features/

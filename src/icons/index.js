@@ -1,5 +1,6 @@
 // Export all icons from a single file
 export { default as AddIcon } from './AddIcon';
+export { default as ArchiveViewIcon } from './ArchiveViewIcon';
 export { default as CancelIcon } from './CancelIcon';
 export { default as DeleteIcon } from './DeleteIcon';
 export { default as EditIcon } from './EditIcon';

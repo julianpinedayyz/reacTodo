@@ -1,4 +1,4 @@
-import { useIconLibrary } from '../contexts/IconContext';
+import { useIconLibrary } from '../features/ui';
 import { ReplyIcon } from '@primer/octicons-react';
 import { FaReply } from 'react-icons/fa';
 

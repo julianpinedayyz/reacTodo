@@ -1,4 +1,4 @@
-import { useIconLibrary } from '../contexts/IconContext';
+import { useIconLibrary } from '../features/ui';
 import { CheckIcon } from '@primer/octicons-react';
 import { FaCheck } from 'react-icons/fa';
 

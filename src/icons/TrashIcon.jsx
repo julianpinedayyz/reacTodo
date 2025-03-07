@@ -1,4 +1,4 @@
-import { useIconLibrary } from '../contexts/IconContext';
+import { useIconLibrary } from '../features/ui';
 import { TrashIcon as OcticonTrashIcon } from '@primer/octicons-react';
 import { FaTrashAlt } from 'react-icons/fa';
 
