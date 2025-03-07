@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { ARCHIVE_DURATION_DAYS } from './utils/todoUtils';
 
 // Import components
 import ThemeToggle from './components/ThemeToggle';
@@ -10,124 +10,41 @@ import TodoFilters from './components/TodoFilters';
 import IconToggle from './components/IconToggle';
 import ExpirationNotice from './components/ExpirationNotice';
 
-// Import contexts
-import { useTheme } from './contexts/ThemeContext';
+// Import contexts and hooks
 import { useIconLibrary } from './contexts/IconContext';
+import { useTodos } from './hooks/useTodos';
+import { useThemeUtils } from './hooks/useThemeUtils';
 
 // Import icons
 import { ArchiveIcon } from '@primer/octicons-react';
 import { FaArchive } from 'react-icons/fa';
 
-// Import utility functions
-import {
-  ARCHIVE_DURATION_DAYS,
-  EXPIRATION_WARNING_DAYS,
-  addTodo,
-  toggleTodo,
-  archiveTodo,
-  restoreTodo,
-  permanentDeleteTodo,
-  editTodo,
-  getDaysUntilDeletion,
-  getFilteredAndSortedTodos,
-  removeExpiredTodos,
-  getExpiringTodos
-} from './utils/todoUtils';
-
-// Import storage utilities
-import {
-  isStorageAvailable,
-  saveToStorage,
-  loadFromStorage
-} from './utils/storageUtils';
-
 function App() {
-  const { isDark } = useTheme();
+  // Custom hooks provide all the state and functions we need
+  const { 
+    filteredAndSortedTodos,
+    storageAvailable,
+    filter,
+    setFilter,
+    sortOrder,
+    toggleSortOrder,
+    archivedCount,
+    expiringCount,
+    activeTodoCount,
+    expiringTodos,
+    todos,
+    handleAddTodo,
+    handleToggleTodo,
+    handleArchiveTodo,
+    handleRestoreTodo,
+    handlePermanentDeleteTodo,
+    handleEditTodo,
+    handleViewArchive,
+    getDaysUntilDeletion
+  } = useTodos();
+  
+  const { themeClass } = useThemeUtils();
   const { useOcticons } = useIconLibrary();
-  const [todos, setTodos] = useState(() => loadFromStorage('todos', []));
-  const [storageAvailable, setStorageAvailable] = useState(false);
-  const [filter, setFilter] = useState('all'); // 'all', 'completed', 'archived'
-  const [sortOrder, setSortOrder] = useState('desc'); // 'desc' (newest first) or 'asc' (oldest first)
-
-  // Create a dynamic theme class based on current theme
-  const themeClass = (darkClass, lightClass) => isDark ? darkClass : lightClass;
-
-  // Check if localStorage is available
-  useEffect(() => {
-    setStorageAvailable(isStorageAvailable());
-  }, []);
-
-  // Save todos to localStorage whenever the todos state changes
-  useEffect(() => {
-    if (storageAvailable) {
-      saveToStorage('todos', todos);
-    }
-  }, [todos, storageAvailable]);
-
-  // Check for expired archived todos (older than 30 days)
-  useEffect(() => {
-    const checkExpiredArchives = () => {
-      const now = Date.now();
-      const expiredTodos = todos.filter(todo =>
-        todo.archived &&
-        (now - todo.archivedAt) > (ARCHIVE_DURATION_DAYS * 24 * 60 * 60 * 1000)
-      );
-
-      if (expiredTodos.length > 0) {
-        // Permanently delete expired archived todos
-        setTodos(removeExpiredTodos);
-      }
-    };
-
-    // Check on app start and then daily
-    checkExpiredArchives();
-    const interval = setInterval(checkExpiredArchives, 24 * 60 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [todos]);
-
-  // Handler functions that use the utility functions
-  const handleAddTodo = (text) => {
-    setTodos(todos => addTodo(todos, text));
-  };
-
-  const handleToggleTodo = (id) => {
-    setTodos(todos => toggleTodo(todos, id));
-  };
-
-  const handleArchiveTodo = (id) => {
-    setTodos(todos => archiveTodo(todos, id));
-  };
-
-  const handleRestoreTodo = (id) => {
-    setTodos(todos => restoreTodo(todos, id));
-  };
-
-  const handlePermanentDeleteTodo = (id) => {
-    setTodos(todos => permanentDeleteTodo(todos, id));
-  };
-
-  const handleEditTodo = (id, newText) => {
-    setTodos(todos => editTodo(todos, id, newText));
-  };
-
-  const toggleSortOrder = () => {
-    setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
-  };
-
-  // Count archived todos
-  const archivedCount = todos.filter(todo => todo.archived).length;
-
-  // Get todos that are about to expire (within EXPIRATION_WARNING_DAYS days)
-  const expiringTodos = getExpiringTodos(todos);
-
-  // Count archived todos that will expire soon
-  const expiringCount = expiringTodos.length;
-
-  // Show archive view when clicking notification
-  const handleViewArchive = () => {
-    setFilter('archived');
-  };
 
   return (
     <>
@@ -201,7 +118,7 @@ function App() {
           />
 
           <TodoList
-            todos={getFilteredAndSortedTodos(todos, filter, sortOrder)}
+            todos={filteredAndSortedTodos}
             onToggle={handleToggleTodo}
             onDelete={handleArchiveTodo}
             onEdit={handleEditTodo}
@@ -216,7 +133,7 @@ function App() {
 
         <StatusBar
           storageAvailable={storageAvailable}
-          todoCount={todos.filter(todo => !todo.archived).length}
+          todoCount={activeTodoCount}
           archivedCount={archivedCount}
           expiringCount={expiringCount}
         />
